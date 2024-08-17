@@ -41,8 +41,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: '#FFFFFF',
-    fontSize: 18,
-    fontFamily: 'Lexend Giga',
+    fontFamily: 'Lexend Giga', // Fonte Lexend Giga
     textAlign: 'center',
   },
 });

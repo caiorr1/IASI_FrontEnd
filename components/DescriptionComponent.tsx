@@ -13,11 +13,9 @@ export default function DescriptionComponent() {
 
 const styles = StyleSheet.create({
   container: {
-    position: 'absolute',
-    top: 287, // Ajuste de posição vertical
-    left: 141, // Ajuste de posição horizontal
-    width: 203,
-    height: 96,
+    alignItems: 'flex-start',  // Alinha à esquerda, de acordo com o novo layout
+    marginBottom: 20,
+    paddingHorizontal: 20,
   },
   description: {
     fontSize: 14,
@@ -25,7 +23,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     lineHeight: 24,
     letterSpacing: -0.05,
-    textAlign: 'left',
+    textAlign: 'left',  // Alinhamento à esquerda
     color: '#FFFFFF',
   },
 });
