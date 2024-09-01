@@ -3,9 +3,11 @@ import { View, StyleSheet, Text } from 'react-native';
 import LogoComponent from '../components/LogoComponent';
 import ButtonComponent from '../components/ButtonComponent';
 import * as Font from 'expo-font';
+import { useNavigation } from './NavigationContext'; // Importe o contexto de navegação
 
 export default function HomeScreen() {
   const [fontsLoaded, setFontsLoaded] = useState(false);
+  const { navigateTo } = useNavigation(); // Usa o hook para acessar a função de navegação
 
   useEffect(() => {
     async function loadFonts() {
@@ -20,7 +22,7 @@ export default function HomeScreen() {
   }, []);
 
   if (!fontsLoaded) {
-    return <Text>Loading...</Text>; // Componente de fallback simples
+    return <Text>Loading...</Text>; // Componente de fallback simples enquanto as fontes carregam
   }
 
   return (
@@ -29,15 +31,15 @@ export default function HomeScreen() {
       <View style={styles.buttonContainer}>
         <ButtonComponent 
           title="Criar conta" 
-          onPress={() => console.log('Criar conta pressed')} 
-          width={226} // Largura do botão
-          fontSize={18} // Tamanho da fonte
+          onPress={() => navigateTo('Register')} // Navega para a tela de registro
+          width={226} 
+          fontSize={18} 
         />
         <ButtonComponent 
           title="Login" 
-          onPress={() => console.log('Login pressed')} 
-          width={172} // Largura do botão
-          fontSize={16} // Tamanho da fonte
+          onPress={() => navigateTo('Login')} // Navega para a tela de login
+          width={172} 
+          fontSize={16} 
         />
       </View>
     </View>
@@ -47,13 +49,13 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#245F54', // Cor de fundo atualizada conforme a paleta
+    backgroundColor: '#245F54', 
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 20, // Adiciona espaçamento nas bordas
+    padding: 20, 
   },
   buttonContainer: {
-    marginTop: 20, // Espaço entre o logo/texto e os botões
-    alignItems: 'center', // Centraliza os botões
+    marginTop: 20, 
+    alignItems: 'center', 
   },
 });

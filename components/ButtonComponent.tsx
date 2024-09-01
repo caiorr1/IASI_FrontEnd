@@ -1,17 +1,32 @@
 import React from 'react';
-import { TouchableOpacity, Text, StyleSheet, Platform } from 'react-native';
+import { TouchableOpacity, Text, StyleSheet, Platform, ViewStyle, TextStyle } from 'react-native';
 
 interface ButtonComponentProps {
   title: string;
   onPress: () => void;
   width: number;
   fontSize: number;
+  disabled?: boolean; // Propriedade opcional para desabilitar o botão
+  buttonStyle?: ViewStyle; // Estilos adicionais para o botão
+  textStyle?: TextStyle; // Estilos adicionais para o texto
 }
 
-export default function ButtonComponent({ title, onPress, width, fontSize }: ButtonComponentProps) {
+export default function ButtonComponent({
+  title,
+  onPress,
+  width,
+  fontSize,
+  disabled = false,
+  buttonStyle = {},
+  textStyle = {},
+}: ButtonComponentProps) {
   return (
-    <TouchableOpacity style={[styles.button, { width }]} onPress={onPress}>
-      <Text style={[styles.buttonText, { fontSize }]}>{title}</Text>
+    <TouchableOpacity
+      style={[styles.button, { width }, buttonStyle, disabled ? styles.disabled : null]}
+      onPress={onPress}
+      disabled={disabled}
+    >
+      <Text style={[styles.buttonText, { fontSize }, textStyle]}>{title}</Text>
     </TouchableOpacity>
   );
 }
@@ -41,7 +56,10 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: '#FFFFFF',
-    fontFamily: 'Lexend Giga', // Fonte Lexend Giga
+    fontFamily: 'Lexend Giga',
     textAlign: 'center',
+  },
+  disabled: { // Estilo para quando o botão está desabilitado
+    backgroundColor: '#aaa', // Cor cinza para indicar desabilitado
   },
 });
