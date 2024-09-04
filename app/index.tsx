@@ -5,6 +5,8 @@ import HomeScreen from './HomeScreen';
 import RegisterScreen from './RegisterScreen';
 import LoginScreen from './LoginScreen';
 import DashboardScreen from './DashboardScreen'; // Importe a DashboardScreen
+import '../global.css';
+
 
 export default function Index() {
   return (

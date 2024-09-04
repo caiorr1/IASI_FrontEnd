@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Alert } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, Alert, TouchableOpacity } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import InputComponent from '@/components/InputComponent';
 import ButtonComponent from '@/components/ButtonComponent';
 import { useNavigation } from './NavigationContext';
@@ -7,7 +8,7 @@ import { useNavigation } from './NavigationContext';
 const LoginScreen: React.FC = () => {
   const [password, setPassword] = useState<string>('');
   const { navigateTo, lastRegisteredEmail } = useNavigation();
-  const [email, setEmail] = useState<string>(lastRegisteredEmail || ''); // Preenche o e-mail automaticamente se houver
+  const [email, setEmail] = useState<string>(lastRegisteredEmail || '');
 
   const handleLogin = async () => {
     try {
@@ -23,7 +24,7 @@ const LoginScreen: React.FC = () => {
 
       if (response.ok) {
         Alert.alert('Sucesso', 'Login realizado com sucesso!');
-        navigateTo('Dashboard'); // Navega para o dashboard após o login
+        navigateTo('Dashboard'); 
       } else {
         Alert.alert('Erro', data.error || 'Erro no login');
       }
@@ -35,6 +36,11 @@ const LoginScreen: React.FC = () => {
 
   return (
     <View style={styles.container}>
+      {/* Botão de Voltar */}
+      <TouchableOpacity style={styles.backButton} onPress={() => navigateTo('Home')}>
+        <Ionicons name="arrow-back" size={24} color="#245F54" />
+      </TouchableOpacity>
+
       <Text style={styles.headerText}>Login</Text>
       <InputComponent
         placeholder="E-mail"
@@ -65,11 +71,18 @@ const styles = StyleSheet.create({
     padding: 20,
     justifyContent: 'center',
   },
+  backButton: {
+    position: 'absolute',
+    top: 40,
+    left: 20,
+    zIndex: 10,
+  },
   headerText: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
-  }
+    textAlign: 'center', // Centraliza o texto do cabeçalho
+  },
 });
 
 export default LoginScreen;

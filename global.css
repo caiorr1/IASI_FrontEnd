@@ -1,0 +1,6 @@
+input:focus, textarea:focus, select:focus {
+    outline: none !important;
+    box-shadow: none !important; /* Remove a sombra de foco */
+    border-color: inherit; /* Mantém a cor da borda atual */
+  }
+  
