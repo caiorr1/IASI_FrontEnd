@@ -85,8 +85,8 @@ const LoginScreen: React.FC = () => {
         <ButtonComponent 
           title="Login" 
           onPress={handleLogin} 
-          width={250} 
-          fontSize={18} 
+          width={200} 
+          fontSize={16} 
         />
         <Text style={styles.forgotPassword} onPress={() => console.log('Forgot Password')}>
           Esqueceu sua senha?

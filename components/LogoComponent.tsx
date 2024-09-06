@@ -1,7 +1,25 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
+import * as Font from 'expo-font';
 
 export default function LogoComponent() {
+  const [fontsLoaded, setFontsLoaded] = useState(false);
+
+  useEffect(() => {
+    async function loadFonts() {
+      await Font.loadAsync({
+        'Lexend-Giga-SemiBold': require('../assets/fonts/LexendGiga-SemiBold.ttf'),
+        'Lato-Bold': require('../assets/fonts/Lato-Bold.ttf'),
+      });
+      setFontsLoaded(true);
+    }
+    loadFonts();
+  }, []);
+
+  if (!fontsLoaded) {
+    return <Text>Loading...</Text>;
+  }
+
   return (
     <View style={styles.container}>
       <Image source={require('../assets/images/logo.png')} style={styles.logo} />
@@ -17,35 +35,35 @@ export default function LogoComponent() {
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',  // Coloca o logo e o texto lado a lado
-    alignItems: 'center',  // Centraliza verticalmente
+    flexDirection: 'row',
+    alignItems: 'center',
     marginBottom: 20,
   },
   logo: {
-    width: 111,  // Largura do logo conforme especificado
-    height: 117, // Altura do logo conforme especificado
-    marginRight: 20,  // Espaçamento entre o logo e o texto
+    width: 111,
+    height: 117,
+    marginRight: 20,
   },
   textContainer: {
-    width: 203,  // Largura do contêiner de texto
-    height: 96,  // Altura do contêiner de texto
+    width: 203,
+    height: 96,
     justifyContent: 'center',
   },
   title: {
-    fontSize: 64,
-    fontFamily: 'Space Age', // Fonte Space Age
-    fontWeight: '400',
-    lineHeight: 64,
+    fontSize: 30,
+    fontFamily: 'Space Age', // Fonte Lexend Giga SemiBold
+    fontWeight: '100',
+    lineHeight: 24,
     textAlign: 'left',
     color: '#FFFFFF',
   },
   description: {
     fontSize: 14,
-    fontFamily: 'Lexend Giga', // Fonte Lexend Giga
+    fontFamily: 'Lexend-Giga-SemiBold', // Fonte Lato Bold
     fontWeight: '600',
     lineHeight: 24,
     letterSpacing: -0.05,
-    textAlign: 'left',  // Alinhamento à esquerda
+    textAlign: 'left',
     color: '#FFFFFF',
   },
 });

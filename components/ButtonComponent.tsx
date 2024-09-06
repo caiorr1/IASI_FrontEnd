@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: '#FFFFFF',
-    fontFamily: 'Lexend Giga',
+    fontFamily: 'Lato-Bold',
     textAlign: 'center',
   },
   disabled: { // Estilo para quando o botão está desabilitado

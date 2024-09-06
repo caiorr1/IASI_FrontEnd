@@ -13,7 +13,7 @@ export default function HomeScreen() {
     async function loadFonts() {
       await Font.loadAsync({
         'Space Age': require('../assets/fonts/SpaceAge.ttf'),
-        'Lexend Giga': require('@expo-google-fonts/lexend/Lexend_600SemiBold.ttf'),
+        'Lato-Bold': require('../assets/fonts/Lato-Bold.ttf'),
       });
       setFontsLoaded(true);
     }
@@ -33,13 +33,15 @@ export default function HomeScreen() {
           title="Criar conta" 
           onPress={() => navigateTo('Register')} // Navega para a tela de registro
           width={226} 
-          fontSize={18} 
+          fontSize={18}
+          buttonStyle={styles.homeButton}
         />
         <ButtonComponent 
           title="Login" 
           onPress={() => navigateTo('Login')} // Navega para a tela de login
           width={172} 
-          fontSize={16} 
+          fontSize={16}
+          buttonStyle={styles.homeButton}
         />
       </View>
     </View>
@@ -58,4 +60,7 @@ const styles = StyleSheet.create({
     marginTop: 20, 
     alignItems: 'center', 
   },
+  homeButton: {
+    backgroundColor: '#214D45',
+  }
 });
