@@ -22,7 +22,12 @@ export default function ButtonComponent({
 }: ButtonComponentProps) {
   return (
     <TouchableOpacity
-      style={[styles.button, { width }, buttonStyle, disabled ? styles.disabled : null]}
+      style={[
+        styles.button,
+        { width }, // Largura ajustável
+        buttonStyle, // Estilos adicionais
+        disabled ? styles.disabled : null, // Estilo desabilitado
+      ]}
       onPress={onPress}
       disabled={disabled}
     >
@@ -34,11 +39,12 @@ export default function ButtonComponent({
 const styles = StyleSheet.create({
   button: {
     height: 56,
-    backgroundColor: '#245953',
-    borderRadius: 12,
+    backgroundColor: '#245F54', // Cor atualizada para #245F54
+    borderRadius: 16, // Bordas mais arredondadas
     justifyContent: 'center',
     alignItems: 'center',
     marginVertical: 10,
+    paddingHorizontal: 20, // Ajuste para o padding horizontal
     ...Platform.select({
       ios: {
         shadowColor: '#000',

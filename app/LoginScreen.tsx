@@ -1,14 +1,31 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, Alert, TouchableOpacity } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, Alert, ScrollView, Image } from 'react-native';
 import InputComponent from '@/components/InputComponent';
 import ButtonComponent from '@/components/ButtonComponent';
 import { useNavigation } from './NavigationContext';
+import { Ionicons } from '@expo/vector-icons';
+import * as Font from 'expo-font';
 
 const LoginScreen: React.FC = () => {
+  const [fontsLoaded, setFontsLoaded] = useState(false);
+  const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const { navigateTo, lastRegisteredEmail } = useNavigation();
-  const [email, setEmail] = useState<string>(lastRegisteredEmail || '');
+  const { navigateTo } = useNavigation();
+
+  useEffect(() => {
+    async function loadFonts() {
+      await Font.loadAsync({
+        'Lato-Regular': require('../assets/fonts/Lato-Regular.ttf'),
+        'Lato-Bold': require('../assets/fonts/Lato-Bold.ttf'),
+      });
+      setFontsLoaded(true);
+    }
+    loadFonts();
+  }, []);
+
+  if (!fontsLoaded) {
+    return <Text>Loading...</Text>;
+  }
 
   const handleLogin = async () => {
     try {
@@ -24,7 +41,7 @@ const LoginScreen: React.FC = () => {
 
       if (response.ok) {
         Alert.alert('Sucesso', 'Login realizado com sucesso!');
-        navigateTo('Dashboard'); 
+        navigateTo('Dashboard');
       } else {
         Alert.alert('Erro', data.error || 'Erro no login');
       }
@@ -35,53 +52,116 @@ const LoginScreen: React.FC = () => {
   };
 
   return (
-    <View style={styles.container}>
-      {/* Botão de Voltar */}
-      <TouchableOpacity style={styles.backButton} onPress={() => navigateTo('Home')}>
-        <Ionicons name="arrow-back" size={24} color="#245F54" />
-      </TouchableOpacity>
-
-      <Text style={styles.headerText}>Login</Text>
-      <InputComponent
-        placeholder="E-mail"
-        value={email}
-        onChangeText={setEmail}
-        autoCapitalize="none"
-        keyboardType="email-address"
-      />
-      <InputComponent
-        placeholder="Senha"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-      />
-      <ButtonComponent 
-        title="Login" 
-        onPress={handleLogin} 
-        width={200} 
-        fontSize={18} 
-      />
-    </View>
+    <ScrollView contentContainerStyle={styles.scrollContainer}>
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <Image 
+            source={require('../assets/images/logoverde.png')} 
+            style={styles.logoImage}
+          />
+          <Text style={styles.logoText}>IASI</Text>
+        </View>
+        <View style={styles.loginContainer}>
+          <Text style={styles.loginText}>
+            Ainda não possui uma conta?
+          </Text>
+          <Text style={styles.loginLink} onPress={() => navigateTo('Register')}> Criar conta</Text>
+        </View>
+        <InputComponent
+          label="E-mail"
+          value={email}
+          onChangeText={setEmail}
+          autoCapitalize="none"
+          keyboardType="email-address"
+          style={{ marginVertical: 20 }}
+        />
+        <InputComponent
+          label="Senha"
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry
+          style={{ marginVertical: 20 }}
+        />
+        <ButtonComponent 
+          title="Login" 
+          onPress={handleLogin} 
+          width={250} 
+          fontSize={18} 
+        />
+        <Text style={styles.forgotPassword} onPress={() => console.log('Forgot Password')}>
+          Esqueceu sua senha?
+        </Text>
+      </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
+  scrollContainer: {
+    flexGrow: 1,
+    justifyContent: 'space-between', 
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    backgroundColor: '#FFFFFF',
+  },
   container: {
-    flex: 1,
-    padding: 20,
-    justifyContent: 'center',
+    width: '100%',
+    maxWidth: 360,
+    alignItems: 'center',
+    backgroundColor: '#FFFFFF',
+    paddingTop: 40,
+    paddingBottom: 40,
   },
-  backButton: {
-    position: 'absolute',
-    top: 40,
-    left: 20,
-    zIndex: 10,
-  },
-  headerText: {
-    fontSize: 24,
-    fontWeight: 'bold',
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
     marginBottom: 20,
-    textAlign: 'center', // Centraliza o texto do cabeçalho
+    alignSelf: 'flex-start',
+  },
+  logoImage: {
+    width: 48,
+    height: 48,
+    marginRight: 10,
+  },
+  logoText: {
+    fontFamily: 'Space Age',
+    fontSize: 40,
+    fontWeight: '400',
+    lineHeight: 40,
+    color: '#15352F',
+  },
+  loginContainer: {
+    flexDirection: 'row', 
+    alignItems: 'center',
+    marginBottom: 20,
+    alignSelf: 'flex-start',
+    marginLeft: 0,
+  },
+  loginText: {
+    fontSize: 12,
+    color: '#6c757d',
+  },
+  loginLink: {
+    color: '#245F54',
+    textDecorationLine: 'underline',
+    textDecorationColor: '#245F54',
+  },
+  title: {
+    fontFamily: 'Space Age',
+    fontSize: 32,
+    fontWeight: '400',
+    lineHeight: 40,
+    textAlign: 'left',
+    color: '#15352F', 
+    marginBottom: 20,
+    alignSelf: 'flex-start',
+  },
+  forgotPassword: {
+    fontSize: 14,
+    color: '#245F54',
+    textDecorationLine: 'underline',
+    textDecorationColor: '#245F54',
+    marginTop: 15,
   },
 });
 
