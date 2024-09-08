@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, TextInput, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -10,6 +10,7 @@ interface InputComponentProps {
   keyboardType?: 'default' | 'email-address' | 'numeric' | 'phone-pad';
   autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters';
   style?: object;
+  error?: boolean; // Adiciona uma propriedade para marcar o erro
 }
 
 const InputComponent: React.FC<InputComponentProps> = ({
@@ -20,16 +21,16 @@ const InputComponent: React.FC<InputComponentProps> = ({
   keyboardType = 'default',
   autoCapitalize = 'none',
   style,
+  error = false,
 }) => {
-  const [isPasswordVisible, setPasswordVisibility] = useState<boolean>(!secureTextEntry);
+  const [isPasswordVisible, setPasswordVisibility] = React.useState<boolean>(!secureTextEntry);
 
   return (
     <View style={[styles.container, style]}>
-      {/* Rótulo fora do campo de entrada */}
       <View style={styles.labelContainer}>
         <Text style={styles.labelText}>{label}</Text>
       </View>
-      <View style={styles.inputWrapper}>
+      <View style={[styles.inputWrapper, error && styles.inputError]}>
         <TextInput
           style={styles.input}
           value={value}
@@ -65,7 +66,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: -12,
     left: 15,
-    backgroundColor: '#FFFFFF', // Fundo branco para sobreposição
+    backgroundColor: '#FFFFFF',
     paddingHorizontal: 4,
     zIndex: 10,
   },
@@ -84,7 +85,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 4,
     paddingHorizontal: 10,
-    backgroundColor: '#FFFFFF', // Fundo branco para o input
+    backgroundColor: '#FFFFFF',
     height: 35.26,
   },
   input: {
@@ -95,6 +96,9 @@ const styles = StyleSheet.create({
   },
   iconContainer: {
     marginLeft: 8,
+  },
+  inputError: {
+    borderColor: 'red',
   },
 });
 

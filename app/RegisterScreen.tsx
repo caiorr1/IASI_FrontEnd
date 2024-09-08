@@ -3,13 +3,15 @@ import { View, Text, StyleSheet, Alert, ScrollView, Image } from 'react-native';
 import InputComponent from '@/components/InputComponent';
 import ButtonComponent from '@/components/ButtonComponent';
 import { useNavigation } from './NavigationContext';
-import { Ionicons } from '@expo/vector-icons';
 import * as Font from 'expo-font';
 
 const RegisterScreen: React.FC = () => {
   const [fontsLoaded, setFontsLoaded] = useState(false);
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [emailError, setEmailError] = useState<boolean>(false);
+  const [passwordError, setPasswordError] = useState<boolean>(false);
   const { navigateTo, setLastRegisteredEmail } = useNavigation();
 
   useEffect(() => {
@@ -28,6 +30,22 @@ const RegisterScreen: React.FC = () => {
   }
 
   const handleRegister = async () => {
+    setErrorMessage(null);
+    setEmailError(false);
+    setPasswordError(false);
+
+    if (!email.includes('@')) {
+      setErrorMessage('Por favor, insira um e-mail válido.');
+      setEmailError(true);
+      return;
+    }
+
+    if (password.length < 6) {
+      setErrorMessage('A senha deve ter pelo menos 6 caracteres.');
+      setPasswordError(true);
+      return;
+    }
+
     try {
       const response = await fetch('http://localhost:3000/registro', {
         method: 'POST',
@@ -41,14 +59,19 @@ const RegisterScreen: React.FC = () => {
 
       if (response.ok) {
         Alert.alert('Sucesso', 'Conta criada com sucesso!');
-        setLastRegisteredEmail(email); 
+        setLastRegisteredEmail(email);
         navigateTo('Login');
       } else {
-        Alert.alert('Erro', data.error || 'Erro no registro');
+        if (data.error && data.error.includes('UNIQUE constraint failed')) {
+          setErrorMessage('O e-mail já está registrado. Por favor, use outro e-mail.');
+          setEmailError(true);
+        } else {
+          setErrorMessage(data.error || 'Erro no registro');
+        }
       }
     } catch (error) {
       console.error('Erro ao registrar:', error);
-      Alert.alert('Erro', 'Não foi possível conectar ao servidor.');
+      setErrorMessage('Não foi possível conectar ao servidor.');
     }
   };
 
@@ -71,6 +94,10 @@ const RegisterScreen: React.FC = () => {
         <Text style={styles.title}>BEM-VINDO</Text>
         <Text style={styles.subtitle}>Sua solução para sustentabilidade industrial a qualquer momento, em qualquer lugar.</Text>
         
+        {errorMessage && (
+          <Text style={styles.errorText}>{errorMessage}</Text>
+        )}
+
         <InputComponent
           label="E-mail"
           value={email}
@@ -78,6 +105,7 @@ const RegisterScreen: React.FC = () => {
           autoCapitalize="none"
           keyboardType="email-address"
           style={{ marginVertical: 20 }}
+          error={emailError}
         />
         <InputComponent
           label="Senha"
@@ -85,6 +113,7 @@ const RegisterScreen: React.FC = () => {
           onChangeText={setPassword}
           secureTextEntry
           style={{ marginVertical: 20 }}
+          error={passwordError}
         />
         <ButtonComponent 
           title="Criar conta" 
@@ -167,14 +196,15 @@ const styles = StyleSheet.create({
     marginBottom: 30,
     alignSelf: 'flex-start',
   },
-  input: {
-    width: 336,
-    height: 35.26,
-    borderWidth: 1,
-    borderColor: '#0E312B',
-    borderRadius: 4,
-    paddingHorizontal: 10,
-    marginVertical: 100, // Aumenta o espaçamento entre os inputs
+  inputError: {
+    borderColor: 'red', // Cor vermelha para o campo com erro
+  },
+  errorText: {
+    color: 'red',
+    marginBottom: 10,
+    textAlign: 'left',
+    alignSelf: 'flex-start',
+    fontSize: 11,
   },
 });
 
