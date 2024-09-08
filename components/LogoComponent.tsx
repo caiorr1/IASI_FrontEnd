@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
   logo: {
     width: 111,
     height: 117,
-    marginRight: 20,
+    marginRight: 10,
   },
   textContainer: {
     width: 203,
@@ -50,15 +50,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   title: {
-    fontSize: 30,
+    fontSize: 70,
     fontFamily: 'Space Age', // Fonte Lexend Giga SemiBold
-    fontWeight: '100',
-    lineHeight: 24,
+    lineHeight: 60,
     textAlign: 'left',
     color: '#FFFFFF',
   },
   description: {
-    fontSize: 14,
+    fontSize: 12,
     fontFamily: 'Lexend-Giga-SemiBold', // Fonte Lato Bold
     fontWeight: '600',
     lineHeight: 24,

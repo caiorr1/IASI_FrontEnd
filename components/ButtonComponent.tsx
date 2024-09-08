@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { TouchableOpacity, Text, StyleSheet, Platform, ViewStyle, TextStyle } from 'react-native';
+import * as Font from 'expo-font'; // Importa o módulo de fontes do Expo
 
 interface ButtonComponentProps {
   title: string;
@@ -20,6 +21,22 @@ export default function ButtonComponent({
   buttonStyle = {},
   textStyle = {},
 }: ButtonComponentProps) {
+  const [fontsLoaded, setFontsLoaded] = useState(false);
+
+  useEffect(() => {
+    async function loadFonts() {
+      await Font.loadAsync({
+        'Lato-Regular': require('../assets/fonts/Lato-Regular.ttf'),
+      });
+      setFontsLoaded(true);
+    }
+    loadFonts();
+  }, []);
+
+  if (!fontsLoaded) {
+    return null; // Ou um indicador de carregamento
+  }
+
   return (
     <TouchableOpacity
       style={[
@@ -62,7 +79,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: '#FFFFFF',
-    fontFamily: 'Lato-Bold',
+    fontFamily: 'Lato-Regular', // Fonte Lato-Regular
     textAlign: 'center',
   },
   disabled: { // Estilo para quando o botão está desabilitado
