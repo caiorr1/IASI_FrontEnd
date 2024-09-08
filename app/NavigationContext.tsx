@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 
-// Adicione 'Dashboard' ao tipo de tela possível
-type ScreenName = 'Home' | 'Register' | 'Login' | 'Dashboard';
+// Adicione 'PasswordReset' ao tipo de tela possível
+type ScreenName = 'Home' | 'Register' | 'Login' | 'Dashboard' | 'PasswordReset';
 
 interface NavigationContextType {
   currentScreen: ScreenName;
