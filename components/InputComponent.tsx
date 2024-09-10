@@ -10,7 +10,7 @@ interface InputComponentProps {
   keyboardType?: 'default' | 'email-address' | 'numeric' | 'phone-pad';
   autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters';
   style?: object;
-  error?: boolean; // Adiciona uma propriedade para marcar o erro
+  error?: boolean; // Nova prop para indicar erro
 }
 
 const InputComponent: React.FC<InputComponentProps> = ({
@@ -28,7 +28,7 @@ const InputComponent: React.FC<InputComponentProps> = ({
   return (
     <View style={[styles.container, style]}>
       <View style={styles.labelContainer}>
-        <Text style={styles.labelText}>{label}</Text>
+        <Text style={[styles.labelText, error && styles.errorLabel]}>{label}</Text>
       </View>
       <View style={[styles.inputWrapper, error && styles.inputError]}>
         <TextInput
@@ -78,6 +78,9 @@ const styles = StyleSheet.create({
     color: '#0E312B',
     textAlign: 'left',
   },
+  errorLabel: {
+    color: 'red',
+  },
   inputWrapper: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -88,6 +91,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     height: 35.26,
   },
+  inputError: {
+    borderColor: 'red',
+  },
   input: {
     flex: 1,
     fontSize: 14,
@@ -96,9 +102,6 @@ const styles = StyleSheet.create({
   },
   iconContainer: {
     marginLeft: 8,
-  },
-  inputError: {
-    borderColor: 'red',
   },
 });
 

@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Alert, ScrollView, Image, TouchableOpacity } fr
 import InputComponent from '@/components/InputComponent';
 import ButtonComponent from '@/components/ButtonComponent';
 import { useNavigation } from './NavigationContext';
+import { Ionicons } from '@expo/vector-icons';
 import * as Font from 'expo-font';
 
 const LoginScreen: React.FC = () => {
@@ -34,7 +35,6 @@ const LoginScreen: React.FC = () => {
     setPasswordError(false);
     setErrorMessage(null);
 
-    // Validação de campos vazios
     if (!email.trim()) {
       setEmailError(true);
       setErrorMessage('O campo de e-mail está vazio.');
@@ -91,7 +91,12 @@ const LoginScreen: React.FC = () => {
           </Text>
           <Text style={styles.loginLink} onPress={() => navigateTo('Register')}> Criar conta</Text>
         </View>
-        {errorMessage && <Text style={styles.errorText}>{errorMessage}</Text>}
+        {errorMessage && (
+          <View style={styles.errorContainer}>
+            <Ionicons name="alert-circle" size={18} color="red" style={styles.errorIcon} />
+            <Text style={styles.errorText}>{errorMessage}</Text>
+          </View>
+        )}
         <InputComponent
           label="E-mail"
           value={email}
@@ -175,11 +180,17 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline',
     textDecorationColor: '#245F54',
   },
+  errorContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
   errorText: {
     color: 'red',
     alignSelf: 'flex-start',
-    marginBottom: 10,
-    fontSize: 11,
+  },
+  errorIcon: {
+    marginRight: 5,
   },
   forgotPassword: {
     fontSize: 14,

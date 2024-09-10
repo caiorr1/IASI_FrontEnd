@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Alert, ScrollView, Image } from 'react-native';
 import InputComponent from '@/components/InputComponent';
 import ButtonComponent from '@/components/ButtonComponent';
 import { useNavigation } from './NavigationContext';
+import { Ionicons } from '@expo/vector-icons'; // Import do ícone de exclamação
 import * as Font from 'expo-font';
 
 const RegisterScreen: React.FC = () => {
@@ -95,7 +96,10 @@ const RegisterScreen: React.FC = () => {
         <Text style={styles.subtitle}>Sua solução para sustentabilidade industrial a qualquer momento, em qualquer lugar.</Text>
         
         {errorMessage && (
-          <Text style={styles.errorText}>{errorMessage}</Text>
+          <View style={styles.errorContainer}>
+            <Ionicons name="alert-circle" size={18} color="red" style={styles.errorIcon} />
+            <Text style={styles.errorText}>{errorMessage}</Text>
+          </View>
         )}
 
         <InputComponent
@@ -196,8 +200,10 @@ const styles = StyleSheet.create({
     marginBottom: 30,
     alignSelf: 'flex-start',
   },
-  inputError: {
-    borderColor: 'red', // Cor vermelha para o campo com erro
+  errorContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
   },
   errorText: {
     color: 'red',
@@ -205,6 +211,9 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     alignSelf: 'flex-start',
     fontSize: 11,
+  },
+  errorIcon: {
+    marginRight: 5,
   },
 });
 

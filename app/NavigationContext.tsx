@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 
-// Adicione 'PasswordReset' ao tipo de tela possível
+// Adicione as telas possíveis ao tipo ScreenName
 type ScreenName = 'Home' | 'Register' | 'Login' | 'Dashboard' | 'PasswordReset';
 
 interface NavigationContextType {
