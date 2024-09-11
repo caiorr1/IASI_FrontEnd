@@ -13,7 +13,7 @@ const LoginScreen: React.FC = () => {
   const [emailError, setEmailError] = useState<boolean>(false);
   const [passwordError, setPasswordError] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const { navigateTo } = useNavigation();
+  const { navigateTo, setAuthToken } = useNavigation();
 
   useEffect(() => {
     async function loadFonts() {
@@ -60,6 +60,7 @@ const LoginScreen: React.FC = () => {
 
       if (response.ok) {
         Alert.alert('Sucesso', 'Login realizado com sucesso!');
+        setAuthToken(data.token);
         navigateTo('Dashboard');
       } else {
         if (data.error.includes('usuários.email')) {

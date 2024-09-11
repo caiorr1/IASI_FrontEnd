@@ -1,67 +1,88 @@
-import React from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from './NavigationContext';
 
 const DashboardScreen: React.FC = () => {
-  const { navigateTo } = useNavigation();
+  const { navigateTo, authToken } = useNavigation();
+  const [industries, setIndustries] = useState<any[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const industries = [
-    {
-      name: 'Indústria X',
-      address: 'Endereço',
-      data: {
-        efficiency: '85%',
-        costReduction: '34%',
-        carbonFootprint: '22%',
-        renewableEnergy: '76%',
-      },
-    },
-    // Adicione outras indústrias conforme necessário
-  ];
+  useEffect(() => {
+    const fetchIndustries = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/industrias', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${authToken}`,
+          },
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          setIndustries(data.industrias);
+        } else {
+          setError(data.error || 'Erro ao carregar indústrias');
+        }
+      } catch (error) {
+        console.error('Erro ao carregar indústrias:', error);
+        setError('Erro ao conectar ao servidor.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchIndustries();
+  }, [authToken]);
 
   return (
     <View style={styles.container}>
-      {/* Cabeçalho */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigateTo('Home')}>
           <Ionicons name="arrow-back" size={24} color="#245F54" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Dashboard</Text>
-        <TouchableOpacity>
-          <Ionicons name="create-outline" size={24} color="#245F54" />
-        </TouchableOpacity>
       </View>
 
-      {/* Lista de Indústrias */}
       <ScrollView style={styles.scrollContainer}>
         <Text style={styles.sectionTitle}>Suas posses</Text>
-        <TouchableOpacity style={styles.addIndustryButton} onPress={() => console.log('Adicionar Indústria')}>
+        <TouchableOpacity style={styles.addIndustryButton} onPress={() => navigateTo('AddIndustry')}>
           <Ionicons name="add-circle-outline" size={20} color="#245F54" />
           <Text style={styles.addIndustryText}>Adicionar</Text>
         </TouchableOpacity>
-        
-        {industries.map((industry, index) => (
-          <View key={index} style={styles.industryCard}>
-            <Text style={styles.industryName}>{industry.name}</Text>
-            <Text style={styles.industryAddress}>{industry.address}</Text>
-            <View style={styles.industryData}>
-              <Text style={styles.dataText}>Eficiência Geral: {industry.data.efficiency}</Text>
-              <Text style={styles.dataText}>Redução de gastos: {industry.data.costReduction}</Text>
-              <Text style={styles.dataText}>Redução da pegada de carbono: {industry.data.carbonFootprint}</Text>
-              <Text style={styles.dataText}>Uso de energia renovável: {industry.data.renewableEnergy}</Text>
+
+        {loading ? (
+          <ActivityIndicator size="large" color="#245F54" />
+        ) : error ? (
+          <Text style={styles.errorText}>{error}</Text>
+        ) : (
+          industries.map((industry, index) => (
+            <View key={index} style={styles.industryCard}>
+              <Text style={styles.industryName}>{industry.nome}</Text>
+              <Text style={styles.industryAddress}>{industry.endereco}</Text>
+              <View style={styles.industryData}>
+                <Text style={styles.dataText}>Eficiência Geral: {industry.eficiencia_geral}%</Text>
+                <Text style={styles.dataText}>Redução de gastos: {industry.reducao_gastos}%</Text>
+                <Text style={styles.dataText}>Redução da pegada de carbono: {industry.reducao_pegada_carbono}%</Text>
+                <Text style={styles.dataText}>Uso de energia renovável: {industry.uso_energia_renovavel}%</Text>
+              </View>
+              {/* Botão de Editar passando a indústria específica */}
+              <TouchableOpacity onPress={() => navigateTo('EditIndustry', { industry })}>
+                <Ionicons name="create-outline" size={24} color="#245F54" />
+              </TouchableOpacity>
             </View>
-          </View>
-        ))}
+          ))
+        )}
       </ScrollView>
 
-      {/* Barra de Navegação Inferior */}
       <View style={styles.footer}>
         <TouchableOpacity onPress={() => navigateTo('Dashboard')} style={styles.footerButton}>
           <Ionicons name="home-outline" size={24} color="#245F54" />
           <Text style={styles.footerText}>Dashboard</Text>
         </TouchableOpacity>
-        {/* Removendo a opção de tela Analysis */}
       </View>
     </View>
   );
@@ -130,7 +151,7 @@ const styles = StyleSheet.create({
   },
   footer: {
     flexDirection: 'row',
-    justifyContent: 'center', // Alinhamento centralizado após a remoção da segunda opção
+    justifyContent: 'space-around',
     paddingVertical: 10,
     borderTopWidth: 1,
     borderColor: '#EEE',
@@ -142,6 +163,11 @@ const styles = StyleSheet.create({
   footerText: {
     fontSize: 12,
     color: '#15352F',
+  },
+  errorText: {
+    color: 'red',
+    marginBottom: 20,
+    textAlign: 'center',
   },
 });
 

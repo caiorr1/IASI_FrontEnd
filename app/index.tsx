@@ -6,6 +6,8 @@ import RegisterScreen from './RegisterScreen';
 import LoginScreen from './LoginScreen';
 import DashboardScreen from './DashboardScreen'; 
 import PasswordResetScreen from './PasswordResetScreen'; 
+import AddIndustryScreen from './AddIndustryScreen';
+import EditIndustryScreen from './EditIndustryScreen';
 import '../global.css';
 
 export default function Index() {
@@ -26,6 +28,8 @@ function Navigator() {
       {currentScreen === 'Login' && <LoginScreen />}
       {currentScreen === 'Dashboard' && <DashboardScreen />}
       {currentScreen === 'PasswordReset' && <PasswordResetScreen />} {/* Adiciona a tela de redefinição de senha */}
+      {currentScreen === 'AddIndustry' && <AddIndustryScreen />} {/* Nova Tela */}
+      {currentScreen === 'EditIndustry' && <EditIndustryScreen />} {/* Adiciona a tela de edição de indústria */}
     </View>
   );
 }
