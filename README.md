@@ -1,8 +1,17 @@
-# Welcome to your Expo app 👋
+# Welcome to IASI APP 👋
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+O IASI é um aplicativo inovador desenvolvido para promover a sustentabilidade industrial, permitindo que os usuários acompanhem e otimizem o desempenho ambiental de suas empresas. Através de uma interface intuitiva e amigável, o aplicativo oferece funcionalidades como monitoramento de eficiência energética, redução de custos, diminuição da pegada de carbono, e uso de energia renovável.
 
-## Get started
+Funcionalidades Principais
+Cadastro e Login: Permite que usuários se registrem, façam login e recuperem suas senhas.
+Dashboard de Indústrias: Visualização centralizada das empresas cadastradas pelo usuário, mostrando dados como eficiência geral, redução de custos, pegada de carbono e uso de energia renovável.
+Adicionar Indústrias: Funcionalidade para adicionar novas indústrias ao dashboard, inserindo informações relevantes para acompanhamento.
+Editar Indústrias: Permite editar as informações de uma indústria já cadastrada.
+Autenticação Segura: Uso de autenticação via token para segurança dos dados do usuário.
+
+Esse é um projeto [Expo](https://expo.dev) criado com [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+
+## Get Started
 
 1. Install dependencies
 
@@ -16,35 +25,5 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
     npx expo start
    ```
 
-In the output, you'll find options to open the app in a
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
