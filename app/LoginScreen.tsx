@@ -3,16 +3,12 @@ import { View, Text, StyleSheet, Alert, ScrollView, Image, TouchableOpacity } fr
 import InputComponent from '@/components/InputComponent';
 import ButtonComponent from '@/components/ButtonComponent';
 import { useNavigation } from './NavigationContext';
-import { Ionicons } from '@expo/vector-icons';
 import * as Font from 'expo-font';
 
 const LoginScreen: React.FC = () => {
   const [fontsLoaded, setFontsLoaded] = useState(false);
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const [emailError, setEmailError] = useState<boolean>(false);
-  const [passwordError, setPasswordError] = useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const { navigateTo, setAuthToken } = useNavigation();
 
   useEffect(() => {
@@ -31,22 +27,6 @@ const LoginScreen: React.FC = () => {
   }
 
   const handleLogin = async () => {
-    setEmailError(false);
-    setPasswordError(false);
-    setErrorMessage(null);
-
-    if (!email.trim()) {
-      setEmailError(true);
-      setErrorMessage('O campo de e-mail está vazio.');
-      return;
-    }
-
-    if (!password.trim()) {
-      setPasswordError(true);
-      setErrorMessage('O campo de senha está vazio.');
-      return;
-    }
-
     try {
       const response = await fetch('http://localhost:3000/login', {
         method: 'POST',
@@ -60,19 +40,14 @@ const LoginScreen: React.FC = () => {
 
       if (response.ok) {
         Alert.alert('Sucesso', 'Login realizado com sucesso!');
-        setAuthToken(data.token);
+        await setAuthToken(data.token); // Salva o token no AsyncStorage
         navigateTo('Dashboard');
       } else {
-        if (data.error.includes('usuários.email')) {
-          setEmailError(true);
-          setErrorMessage('E-mail ou senha inválidos');
-        } else {
-          setErrorMessage(data.error || 'Erro no login');
-        }
+        Alert.alert('Erro', data.error || 'Erro no login');
       }
     } catch (error) {
       console.error('Erro ao fazer login:', error);
-      setErrorMessage('Não foi possível conectar ao servidor.');
+      Alert.alert('Erro', 'Não foi possível conectar ao servidor.');
     }
   };
 
@@ -80,8 +55,8 @@ const LoginScreen: React.FC = () => {
     <ScrollView contentContainerStyle={styles.scrollContainer}>
       <View style={styles.container}>
         <View style={styles.header}>
-          <Image 
-            source={require('../assets/images/logoverde.png')} 
+          <Image
+            source={require('../assets/images/logoverde.png')}
             style={styles.logoImage}
           />
           <Text style={styles.logoText}>IASI</Text>
@@ -92,12 +67,6 @@ const LoginScreen: React.FC = () => {
           </Text>
           <Text style={styles.loginLink} onPress={() => navigateTo('Register')}> Criar conta</Text>
         </View>
-        {errorMessage && (
-          <View style={styles.errorContainer}>
-            <Ionicons name="alert-circle" size={18} color="red" style={styles.errorIcon} />
-            <Text style={styles.errorText}>{errorMessage}</Text>
-          </View>
-        )}
         <InputComponent
           label="E-mail"
           value={email}
@@ -105,7 +74,6 @@ const LoginScreen: React.FC = () => {
           autoCapitalize="none"
           keyboardType="email-address"
           style={{ marginVertical: 20 }}
-          error={emailError}
         />
         <InputComponent
           label="Senha"
@@ -113,13 +81,12 @@ const LoginScreen: React.FC = () => {
           onChangeText={setPassword}
           secureTextEntry
           style={{ marginVertical: 20 }}
-          error={passwordError}
         />
-        <ButtonComponent 
-          title="Login" 
-          onPress={handleLogin} 
-          width={200} 
-          fontSize={16} 
+        <ButtonComponent
+          title="Login"
+          onPress={handleLogin}
+          width={200}
+          fontSize={16}
         />
         <TouchableOpacity onPress={() => navigateTo('PasswordReset')}>
           <Text style={styles.forgotPassword}>
@@ -130,6 +97,13 @@ const LoginScreen: React.FC = () => {
     </ScrollView>
   );
 };
+
+const styles = StyleSheet.create({
+  // ... seus estilos
+});
+
+export default LoginScreen;
+
 
 const styles = StyleSheet.create({
   scrollContainer: {
