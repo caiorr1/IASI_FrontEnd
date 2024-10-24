@@ -99,13 +99,6 @@ const LoginScreen: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
-  // ... seus estilos
-});
-
-export default LoginScreen;
-
-
-const styles = StyleSheet.create({
   scrollContainer: {
     flexGrow: 1,
     justifyContent: 'space-between', 
