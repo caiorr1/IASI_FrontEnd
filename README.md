@@ -3,6 +3,14 @@
 
 O **IASI** é um aplicativo inovador desenvolvido para promover a sustentabilidade industrial, permitindo que os usuários acompanhem e otimizem o desempenho ambiental de suas empresas. Através de uma interface intuitiva e amigável, o aplicativo oferece funcionalidades como monitoramento de eficiência energética, redução de custos, diminuição da pegada de carbono, e uso de energia renovável.
 
+## Participantes
+
+- Caio Ribeiro Rodrigues
+- Elen Cabral
+- Eduardo Jablinski
+- Mary Speranzini
+- Guilherme Riofrio Quaglio
+
 ## 📋 Funcionalidades Principais
 
 ### 📝 Cadastro e Login
